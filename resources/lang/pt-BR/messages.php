@@ -106,6 +106,7 @@ return array(
 	'here' => 'aqui',
 	'to verify the user' => 'para verificar o usuário.',
 	'Manage Users' => 'Gerenciar usuários',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 	# Correo electrónico de verificación de correo electrónico
 	'auth_thanks' => 'Obrigado por se registrar! Antes de começar, você poderia verificar seu endereço de e-mail clicando no link que acabamos de enviar por e-mail? Se você não recebeu o e-mail, teremos prazer em lhe enviar outro. Se não vir o e-mail em alguns minutos, verifique sua pasta de lixo eletrônico ou spam.',
@@ -502,6 +503,7 @@ return array(
 	'tt.Impersonate' => 'Representar',
 	'tt.Edit' => 'Editar',
 	'tt.All links' => 'Todos os links',
+    'tt.Duplicate' => 'Duplicate',
 
 	'confirm.delete.user' => 'Tem certeza de que deseja excluir esse usuário? \Essa ação não pode ser desfeita!',
 

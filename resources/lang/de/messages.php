@@ -110,6 +110,7 @@ return [
     'here' => 'Hier',
     'to verify the user' => 'um den Benutzer zu verifizieren.',
     'Manage Users' => 'Benutzerverwaltung',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Email verification email
@@ -535,6 +536,7 @@ return [
     'tt.Impersonate' => 'Benutzer nachahmen',
     'tt.Edit' => 'Bearbeiten',
     'tt.All links' => 'Alle Links',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten? \\nDiese Aktion kann nicht rückgängig gemacht werden!',
 

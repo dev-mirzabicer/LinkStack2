@@ -18,6 +18,14 @@
         </svg>
      </span>
   </a>
+  <a class="btn btn-sm btn-icon btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-original-title="{{__('messages.tt.Duplicate')}}" href="{{ route('duplicateUser', $user->id ) }}" aria-label="Duplicate" data-bs-original-title="Duplicate">
+     <span class="btn-inner">
+        <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <path d="M9 9V5C9 3.89543 9.89543 3 11 3H19C20.1046 3 21 3.89543 21 5V13C21 14.1046 20.1046 15 19 15H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+           <rect x="3" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></rect>
+        </svg>
+     </span>
+  </a>
   <a class="btn btn-sm btn-icon btn-primary" style="@if(!$user->adminUser && Auth::user()->id !== $user->id && $user->block !== 'yes' && ($user->email_verified_at != '' || env('REGISTER_AUTH') == 'auth')) background:#3a57e8;border-color:#3a57e8; @else background:#6c757d;border-color:#6c757d; @endif" data-bs-toggle="tooltip" data-bs-placement="top" data-original-title="{{__('messages.tt.Impersonate')}}" @if(!$user->adminUser && Auth::user()->id !== $user->id && $user->block !== 'yes' && ($user->email_verified_at != '' || env('REGISTER_AUTH') == 'auth')) href="{{ route('authAsID', $user->id ) }}" @endif aria-label="Impersonate" data-bs-original-title="Impersonate">
     <span class="btn-inner">   
        <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

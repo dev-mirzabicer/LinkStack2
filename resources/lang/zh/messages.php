@@ -108,6 +108,7 @@ return [
     'here' => '这里',
     'to verify the user' => '以验证用户。',
     'Manage Users' => '管理用户',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # 电子邮件验证电子邮件
@@ -532,6 +533,7 @@ return [
     'tt.Impersonate' => '模拟',
     'tt.Edit' => '编辑',
     'tt.All links' => '所有链接',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => '您确定要删除这个用户吗？\n此操作无法撤销！',
 

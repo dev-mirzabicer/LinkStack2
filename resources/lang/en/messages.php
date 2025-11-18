@@ -108,6 +108,7 @@ return [
     'here' => 'here',
     'to verify the user' => 'to verify the user.',
     'Manage Users' => 'Manage Users',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Email verification email
@@ -532,6 +533,7 @@ return [
     'tt.Impersonate' => 'Impersonate',
     'tt.Edit' => 'Edit',
     'tt.All links' => 'All links',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => 'Are you sure you want to delete this user? \nThis action cannot be undone!',
 

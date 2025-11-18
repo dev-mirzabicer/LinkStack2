@@ -15,17 +15,37 @@
                       <section class="text-gray-400">
                         <h2 class="mb-4 card-header"><i class="bi bi-person"> {{__('messages.Edit User')}}</i></h2>
                           <div class="card-body p-0 p-md-3">
+                        @if (session('duplicate_notice'))
+                        <div class="alert alert-info" role="alert">
+                          {{ session('duplicate_notice') }}
+                        </div>
+                        @endif
+
+                        @php
+                            $prefillData = $prefill ?? [];
+                        @endphp
                   
                         @foreach($user as $user)
+                        @php
+                            $formDefaults = [
+                                'name' => $prefillData['name'] ?? $user->name,
+                                'email' => $prefillData['email'] ?? $user->email,
+                                'littlelink_name' => $prefillData['littlelink_name'] ?? $user->littlelink_name,
+                                'littlelink_description' => $prefillData['littlelink_description'] ?? $user->littlelink_description,
+                                'role' => $prefillData['role'] ?? $user->role,
+                                'theme' => $prefillData['theme'] ?? $user->theme,
+                            ];
+                            $roleValue = strtolower($formDefaults['role'] ?? 'user');
+                        @endphp
                         <form action="{{ route('editUser', $user->id) }}" enctype="multipart/form-data" method="post">
                           @csrf
                               <div class="form-group col-lg-8">
                               <label>{{__('messages.Name')}}</label>
-                              <input type="text" class="form-control" name="name" value="{{ $user->name }}">
+                              <input type="text" class="form-control" name="name" value="{{ old('name', $formDefaults['name']) }}">
                             </div>
                             <div class="form-group col-lg-8">
                               <label>{{__('messages.Email')}}</label>
-                              <input type="email" class="form-control" name="email" value="{{ $user->email }}">
+                              <input type="email" class="form-control" name="email" value="{{ old('email', $formDefaults['email']) }}">
                             </div>
                             <div class="form-group col-lg-8">
                               <label>{{__('messages.Password')}}</label>
@@ -67,9 +87,11 @@
                               <div class="form-group col-lg-8">
                                   <select id="theme-select" style="margin-bottom: 40px;" class="form-control" name="theme" data-base-url="{{ url('') }}/@<?= Auth::user()->littlelink_name ?>">
                                       <?php
+                                          $activeTheme = $formDefaults['theme'] ?? $user->theme;
                                           if ($handle = opendir('themes')) {
                                               while (false !== ($entry = readdir($handle))) {
                                                   if ($entry != "." && $entry != "..") {
+                                                      $themeName = null;
                                                       if(file_exists(base_path('themes') . '/' . $entry . '/readme.md')){
                                                           $text = file_get_contents(base_path('themes') . '/' . $entry . '/readme.md');
                                                           $pattern = '/Theme Name:.*/';
@@ -78,25 +100,25 @@
                                                               $themeName = substr($matches[0][0],12);
                                                           }
                                                       }
-                                                      if($user->theme != $entry and isset($themeName)){
+                                                      if($activeTheme != $entry and isset($themeName)){
                                                           echo '<option value="'.$entry.'" data-image="'.url('themes/'.$entry.'/screenshot.png').'">'.$themeName.'</option>';
                                                       }
                                                   }
                                               }
                                           }
                               
-                                          if($user->theme != "default" and $user->theme != ""){
-                                              if(file_exists(base_path('themes') . '/' . $user->theme . '/readme.md')){
-                                                  $text = file_get_contents(base_path('themes') . '/' . $user->theme . '/readme.md');
+                                          if($activeTheme != "default" and $activeTheme != ""){
+                                              if(file_exists(base_path('themes') . '/' . $activeTheme . '/readme.md')){
+                                                  $text = file_get_contents(base_path('themes') . '/' . $activeTheme . '/readme.md');
                                                   $pattern = '/Theme Name:.*/';
                                                   preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
                                                   $themeName = substr($matches[0][0],12);
                                               }
-                                              echo '<option value="'.$user->theme.'" data-image="'.url('themes/'.$user->theme.'/screenshot.png').'" selected>'.$themeName.'</option>';
+                                              echo '<option value="'.$activeTheme.'" data-image="'.url('themes/'.$activeTheme.'/screenshot.png').'" selected>'.$themeName.'</option>';
                                           }
                               
                                           echo '<option value="default" data-image="'.url('themes/default/screenshot.png').'"';
-                                          if($user->theme == "default" or $user->theme == ""){
+                                          if($activeTheme == "default" or $activeTheme == ""){
                                               echo ' selected';
                                           }
                                           echo '>Default</option>';
@@ -110,20 +132,20 @@
                             <div class="input-group-prepend">
                             <div class="input-group-text">{{ url('') }}/@</div>
                             </div>
-                            <input type="text" class="form-control" name="littlelink_name" value="{{ $user->littlelink_name }}">
+                            <input type="text" class="form-control" name="littlelink_name" value="{{ old('littlelink_name', $formDefaults['littlelink_name']) }}">
                           </div>
                         </div>
                             
                             <div class="form-group col-lg-8">
                               <label> {{__('messages.Page description')}}</label>
-                              <textarea class="form-control" name="littlelink_description" rows="3">{{ $user->littlelink_description }}</textarea>
+                              <textarea class="form-control" name="littlelink_description" rows="3">{{ old('littlelink_description', $formDefaults['littlelink_description']) }}</textarea>
                             </div>
                             <div class="form-group col-lg-8">
                               <label for="exampleFormControlSelect1">{{__('messages.Role')}}</label>
                               <select class="form-control" name="role">
-                                <option <?= ($user->role === strtolower('user')) ? 'selected' : '' ?>>user</option>
-                                <option <?= ($user->role === strtolower('vip')) ? 'selected' : '' ?>>vip</option>
-                                <option <?= ($user->role === strtolower('admin')) ? 'selected' : '' ?>>admin</option>
+                                <option value="user" {{ $roleValue === 'user' ? 'selected' : '' }}>user</option>
+                                <option value="vip" {{ $roleValue === 'vip' ? 'selected' : '' }}>vip</option>
+                                <option value="admin" {{ $roleValue === 'admin' ? 'selected' : '' }}>admin</option>
                               </select>
                             </div>
                             @endforeach

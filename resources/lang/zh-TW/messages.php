@@ -106,6 +106,7 @@ return [
     'here' => '這裡',
     'to verify the user' => '以驗證使用者。',
     'Manage Users' => '管理使用者',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # 電子郵件驗證電子郵件
@@ -530,6 +531,7 @@ return [
     'tt.Impersonate' => '模擬',
     'tt.Edit' => '編輯',
     'tt.All links' => '所有連結',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => '您確定要刪除這個使用者嗎？\n此操作無法反悔！',
 

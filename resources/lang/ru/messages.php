@@ -108,6 +108,7 @@ return [
     'here' => 'здесь',
     'to verify the user' => 'для проверки пользователя.',
     'Manage Users' => 'Управление пользователями',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Письмо о подтверждении адреса электронной почты
@@ -532,6 +533,7 @@ return [
     'tt.Impersonate' => 'Выдаёт себя за другого',
     'tt.Edit' => 'Редактировать',
     'tt.All links' => 'Все ссылки',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => 'Вы уверены что хотите удалить пользователя? \nИмейте ввиду, что это действие необратимо!',
 

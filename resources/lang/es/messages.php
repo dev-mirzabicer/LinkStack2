@@ -108,6 +108,7 @@ return array (
   'here' => 'aquí',
   'to verify the user' => 'para verificar al usuario.',
   'Manage users' => 'Gestionar usuarios',
+  'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Correo electrónico de verificación de correo electrónico
@@ -522,6 +523,7 @@ return array (
 'tt.Impersonate' => 'Hacerse pasar por',
 'tt.Edit' => 'Editar',
 'tt.All links' => 'Todos los enlaces',
+    'tt.Duplicate' => 'Duplicate',
 
 'confirm.delete.user' => '¿Realmente quieres eliminar este usuario? \\n¡Esta acción no puede ser deshecha!',
 

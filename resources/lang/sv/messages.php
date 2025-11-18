@@ -108,6 +108,7 @@ return [
     'here' => 'här',
     'to verify the user' => 'för att verifiera användaren.',
     'Manage Users' => 'Hantera användare',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Maila bekräftelsemail
@@ -529,6 +530,7 @@ return [
     'tt.Impersonate' => 'Imitera',
     'tt.Edit' => 'Redigera',
     'tt.All links' => 'Alla länkar',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => 'Är du säker på att du vill ta bort den här användaren? \nDetta är permanent!',
 

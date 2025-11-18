@@ -108,6 +108,7 @@ return [
     'here' => 'Ở đây',
     'to verify the user' => 'Để xác minh người dùng.',
     'Manage Users' => 'Quản lý người dùng',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Email verification email
@@ -530,6 +531,7 @@ return [
     'tt.Impersonate' => 'Mạo danh',
     'tt.Edit' => 'Chỉnh sửa',
     'tt.All links' => 'Tất cả các liên kết',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => 'Bạn có chắc là bạn muốn xóa người dùng này không?\ nthis hành động không thể hoàn tác! ',
 

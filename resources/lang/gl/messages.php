@@ -105,6 +105,7 @@ return array (
   'here' => 'aquí',
   'to verify the user' => 'para verificar ao usuario.',
   'Manage users' => 'Xestionar usuarios',
+  'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 # Correo electrónico de verificación de correo electrónico
   'auth_thanks' => '¡Grazas por rexistrarte! Antes de comezar, poderías verificar a túa dirección de correo electrónico facendo clic no enlace que acabamos de enviarche? Se non recibiches o correo electrónico, estaremos encantados de enviarche outro. Se non ves o correo electrónico en uns minutos, revisa a túa carpeta de correo non desexado ou correo lixo.',
@@ -521,6 +522,7 @@ izado con éxito!',
 'tt.Impersonate' => 'Facérenos pasar por',
 'tt.Edit' => 'Editar',
 'tt.All links' => 'Todos os enlaces',
+    'tt.Duplicate' => 'Duplicate',
 
 'confirm.delete.user' => 'Realmente queres eliminar este usuario? \\nEsta acción non pode ser desfeita!',
 

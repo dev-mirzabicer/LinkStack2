@@ -167,6 +167,11 @@ When accessing your instance for the first time, you will be greeted by the firs
 
 The official docker version of [LinkStack](https://github.com/linkstackorg/linkstack). This docker image is a simple to set up solution, containing everything you need to run LinkStack.
 
+Need to ship your own patched build while keeping the exact same Compose stack?
+See [docs/docker-custom.md](docs/docker-custom.md) for a drop-in Dockerfile and
+workflow that produces an image compatible with the Traefik + `/htdocs`
+deployment you already run.
+
 The docker version of LinkStack retains all the features and customization options of the [original version](https://github.com/linkstackorg/linkstack).
 
 This docker is based on [Alpine Linux](https://www.alpinelinux.org), a Linux distribution designed to be small, simple and secure. The web server is running [Apache2](https://www.apache.org), a free and open-source cross-platform web server software. The docker comes with [PHP 8.2](https://www.php.net/releases/8.2/en.php) for high compatibility and performance.

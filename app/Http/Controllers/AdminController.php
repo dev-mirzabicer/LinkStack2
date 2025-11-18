@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 use GeoSot\EnvEditor\Controllers\EnvController;
 use GeoSot\EnvEditor\Exceptions\EnvException;
@@ -193,6 +194,43 @@ public function SendTestMail(Request $request)
         return redirect('admin/edit-user/' . $user->id);
     }
 
+    public function duplicateUser($id)
+    {
+        $sourceUser = User::findOrFail($id);
+
+        $duplicate = $sourceUser->replicate();
+        $duplicate->id = null;
+        $duplicate->name = $this->buildDuplicateName($sourceUser->name);
+        $duplicate->email = $this->buildDuplicateEmail($sourceUser->email);
+        $duplicate->littlelink_name = $this->buildDuplicateLittlelinkName($sourceUser->littlelink_name);
+        $duplicate->remember_token = Str::random(60);
+        $duplicate->email_verified_at = null;
+        $duplicate->auth_as = null;
+        $duplicate->created_at = now();
+        $duplicate->updated_at = now();
+
+        $duplicate->save();
+
+        $this->duplicateAvatar($sourceUser->id, $duplicate->id);
+        $this->duplicateBackground($sourceUser->id, $duplicate->id);
+
+        $prefill = [
+            'name' => $sourceUser->name,
+            'email' => $sourceUser->email,
+            'littlelink_name' => $sourceUser->littlelink_name,
+            'littlelink_description' => $sourceUser->littlelink_description,
+            'role' => $sourceUser->role,
+            'theme' => $sourceUser->theme,
+        ];
+
+        return redirect()->route('showUser', $duplicate->id)
+            ->with('duplicate_prefill', [
+                'user_id' => $duplicate->id,
+                'data' => $prefill,
+            ])
+            ->with('duplicate_notice', __('messages.duplicate.notice', ['name' => $sourceUser->name ?? __('messages.User')]));
+    }
+
     //Delete existing user
     public function deleteUser(request $request)
     {
@@ -231,6 +269,12 @@ public function SendTestMail(Request $request)
         $id = $request->id;
 
         $data['user'] = User::where('id', $id)->get();
+        $data['prefill'] = null;
+
+        $prefillPayload = $request->session()->get('duplicate_prefill');
+        if (is_array($prefillPayload) && ($prefillPayload['user_id'] ?? null) == $id) {
+            $data['prefill'] = $prefillPayload['data'] ?? null;
+        }
 
         return view('panel/edit-user', $data);
     }
@@ -762,6 +806,112 @@ public function SendTestMail(Request $request)
 
         return view('linkinfo', ['clicks' => $clicks, 'linkID' => $linkId, 'link' => $link, 'id' => $userID, 'userData' => $userData]);
 
+    }
+
+    protected function buildDuplicateName(?string $value): string
+    {
+        $base = trim($value ?? '') !== '' ? $value : __('messages.User');
+        $candidate = $base . ' (Copy)';
+        $suffix = 2;
+
+        while (User::where('name', $candidate)->exists()) {
+            $candidate = $base . ' (Copy ' . $suffix . ')';
+            $suffix++;
+        }
+
+        return $candidate;
+    }
+
+    protected function buildDuplicateEmail(?string $email): string
+    {
+        if (!empty($email) && Str::contains($email, '@')) {
+            [$local, $domain] = explode('@', $email, 2);
+            $local = preg_replace('/[^A-Za-z0-9._%+-]/', '', $local);
+            $domain = $domain ?: $this->defaultEmailDomain();
+        } else {
+            return $this->generatePlaceholderEmail();
+        }
+
+        if ($local === '') {
+            return $this->generatePlaceholderEmail();
+        }
+
+        $suffix = 1;
+        do {
+            $candidate = sprintf('%s+copy%s@%s', $local, $suffix, $domain);
+            $suffix++;
+        } while (User::where('email', $candidate)->exists());
+
+        return $candidate;
+    }
+
+    protected function buildDuplicateLittlelinkName(?string $value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        $base = $value;
+        $suffix = 1;
+        $candidate = $base . '-copy';
+        while (User::where('littlelink_name', $candidate)->exists()) {
+            $suffix++;
+            $candidate = $base . '-copy' . $suffix;
+        }
+
+        return $candidate;
+    }
+
+    protected function generatePlaceholderEmail(): string
+    {
+        $domain = $this->defaultEmailDomain();
+
+        do {
+            $local = Str::lower(Str::random(10));
+            $candidate = $local . '@' . $domain;
+        } while (User::where('email', $candidate)->exists());
+
+        return $candidate;
+    }
+
+    protected function defaultEmailDomain(): string
+    {
+        $domain = parse_url(url(''), PHP_URL_HOST);
+        return $domain ?: 'example.com';
+    }
+
+    protected function duplicateAvatar(int $sourceId, int $targetId): void
+    {
+        $relativePath = findAvatar($sourceId);
+        if ($relativePath === 'error.error') {
+            return;
+        }
+
+        $sourcePath = base_path($relativePath);
+        if (!File::exists($sourcePath)) {
+            return;
+        }
+
+        $extension = pathinfo($sourcePath, PATHINFO_EXTENSION) ?: 'png';
+        $fileName = $targetId . '_' . time() . '.' . $extension;
+        File::copy($sourcePath, base_path('assets/img/' . $fileName));
+    }
+
+    protected function duplicateBackground(int $sourceId, int $targetId): void
+    {
+        $fileName = findBackground($sourceId);
+        if ($fileName === 'error.error') {
+            return;
+        }
+
+        $sourcePath = base_path('assets/img/background-img/' . $fileName);
+        if (!File::exists($sourcePath)) {
+            return;
+        }
+
+        $extension = pathinfo($sourcePath, PATHINFO_EXTENSION) ?: 'png';
+        $targetFile = $targetId . '_' . time() . '.' . $extension;
+        File::copy($sourcePath, base_path('assets/img/background-img/' . $targetFile));
     }
 
 }

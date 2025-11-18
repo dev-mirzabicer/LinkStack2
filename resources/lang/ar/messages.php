@@ -108,6 +108,7 @@ return [
     'here' => 'هنا',
     'to verify the user' => 'لتفعيل المستخدم.',
     'Manage Users' => 'ادارة المستخدمين',
+    'duplicate.notice' => 'Duplicated ":name". Update any unique fields (email, page URL, etc.) before saving.',
 
 
     # Email verification email
@@ -532,6 +533,7 @@ return [
     'tt.Impersonate' => 'انتحال شخصية',
     'tt.Edit' => 'تعديل',
     'tt.All links' => 'كافة الروابط',
+    'tt.Duplicate' => 'Duplicate',
 
     'confirm.delete.user' => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟\nلا يمكن التراجع عن هذا الإجراء!',
 
